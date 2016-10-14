@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#author="JeeWin'
+__author__ = 'JeeWin'
 
 import xlrd
 from tld import get_tld
@@ -69,15 +69,29 @@ if __name__ == "__main__":
     
     zmap_results = get_zmap_dic()
     ba_results = get_ba_dic()    
-    
+    results = {}
     for i in zmap_results: # find wba
         if ba_results.has_key(i): # 已备案
+            p = []
             for j in zmap_results[i]:
                 if j not in ba_results[i]:
-                    print i + ':' + j + '  not found'
+                    p.append(j)
+            if p:
+                results[i] = p
         else:
+            p = []
             for j in zmap_results[i]:
-                print i + ':' + j + '  not found'
+                p.append(j)
+            results[i] = p
+
+    for i in results:
+        print i + '@',
+        for j in results[i]:
+            print j,'',
+        print ''
+    # print results['10.223.42.114']
+    # print zmap_results['10.223.42.114']
+    # print ba_results['10.223.42.114']
 
 
 
