@@ -8,12 +8,11 @@ import socket
 
  
 def get_ba_dic():    
-    ba_data = xlrd.open_workbook('sjzx.xls')
+    ba_data = xlrd.open_workbook('sjzx1.xls')
     ba_table = ba_data.sheets()[0]
     ba_dic = {} # 已备案ba_dic
-    # nrows = table.nrows
-
-    for i in range(6,55):# line range
+    nrows = ba_table.nrows
+    for i in range(5,nrows):# line range row (number -1,nrows)
         ips = ba_table.row_values(i)[25]
         ports = ba_table.row_values(i)[26]
         url = ba_table.row_values(i)[28]
@@ -91,7 +90,7 @@ if __name__ == "__main__":
         print ''
     # print results['10.223.42.114']
     # print zmap_results['10.223.42.114']
-    # print ba_results['10.223.42.114']
+    # print ba_results
 
 
 
