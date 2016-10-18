@@ -6,14 +6,14 @@ from IPy import IP
 
 
 def get_zmap_dic():
-    ip_range = IP('10.232.96.0/19')
+    ip_range = IP('10.232.64.0/19')
     zmap_results_list = []
     for line in open('zmap_all_port3B.txt'):
         line = line.strip('\n')
         if not line.split(',')[0] == "saddr":
             ip = line.split(',')[0]
             if ip in ip_range:
-                #print line.split(',')[0] + ',' + line.split(',')[1]
+                print line.split(',')[0] + ',' + line.split(',')[1]
                 zmap_results_list.append([line.split(',')[0], line.split(',')[1]])
 
     zmap_results_dic = {}
