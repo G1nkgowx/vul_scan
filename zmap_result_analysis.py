@@ -6,9 +6,9 @@ from IPy import IP
 
 
 def get_zmap_dic():
-    ip_range = IP('10.223.0.0/18')
+    ip_range = IP('10.232.96.0/19')
     zmap_results_list = []
-    for line in open('sjzx_all.txt'):
+    for line in open('zmap_all_port3B.txt'):
         line = line.strip('\n')
         if not line.split(',')[0] == "saddr":
             ip = line.split(',')[0]
@@ -17,16 +17,19 @@ def get_zmap_dic():
                 zmap_results_list.append([line.split(',')[0], line.split(',')[1]])
 
     zmap_results_dic = {}
+
     for i in zmap_results_list:
-        zmap_results_dic[i[0]]=[]
-        for j in zmap_results_list:
-            if j[0]==i[0]:
-                zmap_results_dic[i[0]].append('tcp'+j[1])
+        if not zmap_results_dic.has_key(i[0]):
+            zmap_results_dic[i[0]] = []
+            for j in zmap_results_list:
+                if j[0]==i[0]:
+                    zmap_results_dic[i[0]].append('tcp'+j[1])
     return zmap_results_dic
 
 if __name__ == "__main__":
     dic = get_zmap_dic()
-    # print dic['10.223.50.1']
+
+     # print dic['10.233.50.1']
     # print ""
     # print dic['10.223.2.60']
     # print ""
