@@ -21,8 +21,11 @@ def getUrl(ip_port):
         soup = BeautifulSoup(response)
         title = soup.title.string
         print "title:", title.strip()
+        #print 'yes'
     except urllib2.HTTPError, e:
         print 'http error:', e.code
+        #print 'yes'
+
     except Exception, e:
         print 'other error:', e,
         try:
