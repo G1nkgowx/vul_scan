@@ -23,6 +23,6 @@ def getUrl(url):
 if __name__ == "__main__":
     nmap_report = NmapParser.parse_fromfile(sys.argv[1])
     urls = [ 'http://' + a.address + ':' + str(b.port) + '/' for a in nmap_report.hosts for b in a.services if b.open() ]
-    #print urls
+    print urls
     pool = Pool(20)
     pool.map(getUrl, urls)

