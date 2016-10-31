@@ -7,9 +7,9 @@ from IPy import IP
 
 
 def get_zmap_dic():
-    ip_range = IP('10.232.64.0/19')
+    ip_range = IP('10.232.1.0/24')
     zmap_results_list = []
-    for line in open('zmap_all_port3B.txt'):
+    for line in open('hb.txt'):
         line = line.strip('\n')
         if not line.split(',')[0] == "saddr":
             ip = line.split(',')[0]
@@ -29,7 +29,7 @@ def get_zmap_dic():
 
 if __name__ == "__main__":
     dic = get_zmap_dic()
-
+    print dic
      # print dic['10.233.50.1']
     # print ""
     # print dic['10.223.2.60']

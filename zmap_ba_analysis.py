@@ -5,6 +5,8 @@ __author__ = 'JeeWin'
 import xlrd
 from tld import get_tld
 import socket
+from libnmap.parser import NmapParser
+import sys
 
  
 def get_ba_dic():    
@@ -51,7 +53,7 @@ def get_ba_dic():
     
 def get_zmap_dic():    
     zmap_results_list = []
-    for line in open('sjzx_all_port66C.txt'):
+    for line in open('hb.txt'):
         line = line.strip('\n')
         if not line.split(',')[0] == "saddr":
             zmap_results_list.append([line.split(',')[0] , line.split(',')[1]])
@@ -65,6 +67,22 @@ def get_zmap_dic():
                 if j[0] == i[0]:
                     zmap_results_dic[i[0]].append('tcp' + j[1])
     return zmap_results_dic
+
+def get_nmap_dic():
+
+    nmap_report = NmapParser.parse_fromfile(sys.argv[1])
+
+    nmap_results_dic = {}
+
+    for host in nmap_report.hosts:
+        for service in host.services:
+            if service.open():
+                if nmap_results_dic.has_key(host.address):
+                    nmap_results_dic[host.address].append('tcp' + str(service.port))
+                else:
+                    nmap_results_dic[host.address] = ['tcp' + str(service.port)]
+
+    return nmap_results_dic
 
 if __name__ == "__main__": 
     

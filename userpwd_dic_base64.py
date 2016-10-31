@@ -15,6 +15,7 @@ def main():
     username = read_file(sys.argv[1])
     password = read_file(sys.argv[2])
     for u in username:
+        print base64.b64encode(u + ':' + u)
         for p in password:
             print base64.b64encode(u + ':' + p)
 if __name__ == "__main__":
