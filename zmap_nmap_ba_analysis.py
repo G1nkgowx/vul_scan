@@ -7,10 +7,11 @@ from tld import get_tld
 import socket
 from libnmap.parser import NmapParser
 import sys
+from optparse import OptionParser
 
  
-def get_ba_dic():    
-    ba_data = xlrd.open_workbook('sjzx1.xls')
+def get_ba_dic(filename):
+    ba_data = xlrd.open_workbook(filename)
     ba_table = ba_data.sheets()[0]
     ba_dic = {} # 已备案ba_dic
     nrows = ba_table.nrows
@@ -51,9 +52,9 @@ def get_ba_dic():
                     ba_dic[ip.encode('utf-8')] = p # add ip
     return ba_dic
     
-def get_zmap_dic():    
+def get_zmap_dic(filename):
     zmap_results_list = []
-    for line in open('hb.txt'):
+    for line in open(filename):
         line = line.strip('\n')
         if not line.split(',')[0] == "saddr":
             zmap_results_list.append([line.split(',')[0] , line.split(',')[1]])
@@ -68,9 +69,9 @@ def get_zmap_dic():
                     zmap_results_dic[i[0]].append('tcp' + j[1])
     return zmap_results_dic
 
-def get_nmap_dic():
+def get_nmap_dic(filename):
 
-    nmap_report = NmapParser.parse_fromfile(sys.argv[1])
+    nmap_report = NmapParser.parse_fromfile(filename)
 
     nmap_results_dic = {}
 
@@ -84,33 +85,49 @@ def get_nmap_dic():
 
     return nmap_results_dic
 
-if __name__ == "__main__": 
-    
-    zmap_results = get_zmap_dic()
-    ba_results = get_ba_dic()    
+def main():
+    parser = OptionParser()
+    parser.add_option("-f", "--file", dest="filename",
+                      help="Zmap or nmap output file", metavar="FILE")
+    parser.add_option("-x", "--xlsfile", dest="xlsfilename",
+                      help="xls file", metavar="FILE")
+
+
+    (options, args) = parser.parse_args()
+    print options.filename.split('.')[1]
+    if options.filename.split('.')[1] == 'xml':
+        scan_results = get_nmap_dic(options.filename)
+    else:
+        scan_results = get_zmap_dic(options.filename)
+
+    ba_results = get_ba_dic(options.xlsfilename)
     results = {}
-    for i in zmap_results: # find wba
-        if ba_results.has_key(i): # 已备案
+    for i in scan_results:  # find wba
+        if ba_results.has_key(i):  # 已备案
             p = []
-            for j in zmap_results[i]:
+            for j in scan_results[i]:
                 if j not in ba_results[i]:
                     p.append(j)
             if p:
                 results[i] = p
         else:
             p = []
-            for j in zmap_results[i]:
+            for j in scan_results[i]:
                 p.append(j)
             results[i] = p
 
     for i in results:
         print i + '@',
         for j in results[i]:
-            print j,'',
+            print j, '',
         print ''
-    # print results['10.223.42.114']
-    # print zmap_results['10.223.42.114']
-    # print ba_results
+    #print results['10.223.42.114']
+    #print zmap_results['10.223.42.114']
+    #print ba_results
+
+if __name__ == "__main__":
+    main()
+
 
 
 
