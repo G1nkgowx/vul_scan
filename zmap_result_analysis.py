@@ -32,7 +32,7 @@ if __name__ == "__main__":
     parser.add_option("-f", "--file", dest="filename",
                       help="Zmap output file", metavar="FILE")
     parser.add_option("-r", "--range", dest="range",
-                      help="ip_range")
+                      help="ip_range", metavar="FILE")
 
     (options, args) = parser.parse_args()
     dic = get_zmap_dic(options.filename, options.range)
