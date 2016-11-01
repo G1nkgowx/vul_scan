@@ -6,7 +6,6 @@ import xlrd
 from tld import get_tld
 import socket
 from libnmap.parser import NmapParser
-import sys
 from optparse import OptionParser
 
  
@@ -94,7 +93,7 @@ def main():
 
 
     (options, args) = parser.parse_args()
-    print options.filename.split('.')[1]
+
     if options.filename.split('.')[1] == 'xml':
         scan_results = get_nmap_dic(options.filename)
     else:
