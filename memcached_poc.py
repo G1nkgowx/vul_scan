@@ -11,8 +11,7 @@ def verify(url):
     host = url[0]
     port = url[1]
 
-    payload = "\x2a\x31\x0d\x0a\x24\x34\x0d\x0a\x69\x6e\x66\x6f\x0d\x0a"
-
+    payload = "stats items\n"
     socket.setdefaulttimeout(10)
     s = socket.socket()
     try:
@@ -20,10 +19,8 @@ def verify(url):
         s.connect((host, port))
         s.send(payload)
         recvdata = s.recv(1024)
-        repr(recvdata)
-
-        if recvdata and 'redis_version' in recvdata:
-            print host + ':' + str(port) + ' have redis infoleak'
+        if recvdata and 'STAT items' in recvdata:
+            print host + ':' + str(port) + ' have vul'
         else:
             print host + ':' + str(port)
     except Exception, e:
@@ -42,6 +39,7 @@ def main():
             ip = line.split(',')[0]
             urls.append([ip,int(line.split(',')[1])])
 
+    #verify(['10.232.246.11',11211])
     pool = Pool(40)
     pool.map(verify, urls)
     pool.close()

