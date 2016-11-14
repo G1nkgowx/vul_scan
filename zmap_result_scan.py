@@ -48,7 +48,7 @@ if __name__ == "__main__":
         if not line.split(',')[0] == "saddr":
             urls.append(line.split(','))
 
-    #getUrl(['10.223.42.227','3306'])
+
 
     pool = Pool(20)
     pool.map(getUrl, urls)
