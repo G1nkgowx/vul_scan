@@ -49,7 +49,6 @@ if __name__ == "__main__":
             urls.append(line.split(','))
 
 
-
     pool = Pool(20)
     pool.map(getUrl, urls)
     pool.close()

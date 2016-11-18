@@ -18,12 +18,12 @@ class Scan(QtGui.QWidget):
     def initUI(self):
 
         self.logo_label = QtGui.QLabel(self)
-        self.logo_label.setPixmap(QtGui.QPixmap("%s/logo.png" % (os.getcwd())))
+        self.logo_label.setPixmap(QtGui.QPixmap("./logo.png" ))
         self.logo_label.move(30, 20)
 
         self.text_label = QtGui.QLabel(self)
-        self.text_label.setText('Memcached 未授权访问漏洞扫描器 V0.1  \n输入文件格式:每行一个ip,端口 如1.1.1.1,11211 '
-                                '\n环境:Python 2.7.10 Qt 5.7.0 PyQt 4.11.4')
+        self.text_label.setText('Memcached unauthorized scaner V0.1  \nInput file format:ex 1.1.1.1,11211 '
+                                '\nPython 2.7.10 Qt 5.7.0 PyQt 4.11.4')
         self.text_label.move(150, 30)
 
         self.inputfile_LineEdit = QtGui.QLineEdit(self)

