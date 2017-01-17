@@ -43,7 +43,7 @@ if __name__ == '__main__':
             urls.append([ip, line.split(',')[1]])
 
     #print urls
-    pool = Pool(20)
+    pool = Pool(1)
     pool.map(brute_force, urls)
     pool.close()
     pool.join()

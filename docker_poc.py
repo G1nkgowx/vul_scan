@@ -26,7 +26,7 @@ def getUrl(ip_port):
     except urllib2.HTTPError, e:
         print 'http error:', e.code
 
-    except Exception, e:globals()
+    except Exception, e:
         print 'other error:', e
 
 

@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
-
 import urllib2
 import argparse,urlparse
 from multiprocessing import Pool
@@ -48,6 +46,9 @@ def verify(url):
             return True
         else:
             print 'have put'
+            f = open('iisput_vul.txt', 'a')
+            f.write(url + '\n')
+            f.close()
             return False
     print 'none'
     return False
@@ -82,7 +83,7 @@ if __name__ == '__main__':
                         url = 'http://' + url
                         url = url.strip()
                         urls.append(url)
-        pool = Pool(40)
+        pool = Pool(20)
         pool.map(verify, urls)
         pool.close()
         pool.join()
