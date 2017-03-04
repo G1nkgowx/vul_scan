@@ -19,3 +19,7 @@
 *.restore
 
 *.bak
+
+sjzx/sjzx_vul/get_http_login.py
+
+autoscan/
